@@ -38,7 +38,7 @@ import org.jmolecules.ddd.types.Identifier;
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 @Getter
 @Setter(AccessLevel.PACKAGE)
-public class ContactDeliveryList {
+public class ContactDeliveryList extends QuaranoAggregate<ContactDeliveryList, AppIdentifier>{
 
 	private static final AppIdentifier APPIDENTIFIER = null;
 
