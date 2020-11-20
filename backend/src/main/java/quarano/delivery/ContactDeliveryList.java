@@ -13,7 +13,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import quarano.core.QuaranoAggregate;
 import quarano.delivery.ContactDelivery;
+import quarano.delivery.ContactDeliveryList.AppIdentifier;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -103,7 +105,7 @@ public class ContactDeliveryList extends QuaranoAggregate<ContactDeliveryList, A
 			return hasAnyAppIdentifier(APPIDENTIFIER);
 		}
 
-		private boolean hasAnyAppIdentifier(UUID appId) {
+		private boolean hasAnyAppIdentifier(AppIdentifier appId) {
 			// TODO
 			var res = false;
 
@@ -118,7 +120,7 @@ public class ContactDeliveryList extends QuaranoAggregate<ContactDeliveryList, A
 		@EqualsAndHashCode
 		@RequiredArgsConstructor(staticName = "of")
 		@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
-		public static class AppIdentifier extends ContactDeliveryList implements Identifier, Serializable {
+		public static class AppIdentifier implements Identifier, Serializable {
 
 			private static final long serialVersionUID = 7871473225101042167L;
 
@@ -140,14 +142,6 @@ public class ContactDeliveryList extends QuaranoAggregate<ContactDeliveryList, A
 
 		public void setProcessnumber(String processnumber) {
 			this.processnumber = processnumber;
-		}
-
-		public AppIdentifier getAppId() {
-			return appId;
-		}
-
-		public void setAppId(AppIdentifier appId) {
-			this.appId = appId;
 		}
 
 		public Date getTimestamp() {

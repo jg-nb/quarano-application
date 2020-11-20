@@ -1,4 +1,4 @@
-package quarano.contact;
+package quarano.delivery;
 
 import quarano.delivery.ContactDeliveryList;
 import quarano.delivery.ContactDeliveryList.AppIdentifier;

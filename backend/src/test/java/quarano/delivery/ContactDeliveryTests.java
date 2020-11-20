@@ -1,4 +1,4 @@
-package quarano.account;
+package quarano.delivery;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 
 @RequiredArgsConstructor
 class ContactDeliveryTests {
