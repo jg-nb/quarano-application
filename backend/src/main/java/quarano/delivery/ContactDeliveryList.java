@@ -3,9 +3,6 @@ package quarano.delivery;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.validation.Valid;
-
-import org.springframework.validation.Errors;
 
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -25,8 +22,6 @@ import java.util.UUID;
 
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 
 import org.jmolecules.ddd.types.Identifier;
 
@@ -36,86 +31,93 @@ import org.jmolecules.ddd.types.Identifier;
  * @author Johannes Griebenow
  */
 @Entity
-@Table(name = "contactdelivery")
+@Table(name = "deliverimports")
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 @Getter
 @Setter(AccessLevel.PACKAGE)
 public class ContactDeliveryList extends QuaranoAggregate<ContactDeliveryList, AppIdentifier>{
 
-	private static final AppIdentifier APPIDENTIFIER = null;
-
-	@Column(name = "contactdelivery_processnumber")
+	@Column(name = "deliveryimports_processnumber")
 	private String processnumber;
 
-	@Id
-	@Column(name = "contactdelivery_id")
+	@Column(name = "deliveryimports_id")
 	private UUID appId;
 
-	@Column(name = "timestamp")
+	@Column(name = "deliveryimports_timestamp")
 	private Date timestamp;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	private List<ContactDelivery> contacts = new ArrayList<>();
+	@Column(name = "deliveryimports_hash")
+	private String hash;
+	//private List<ContactDelivery> contacts = new ArrayList<>();
 
-	public ContactDeliveryList(String processnumber, Date timestamp, List<ContactDelivery> contacts) {
-			super();
+	public ContactDeliveryList(
+		String processnumber,
+		Date timestamp,
+		String hash
+		//List<ContactDelivery> contacts
+	) {
+		super();
 
-			this.id = AppIdentifier.of(UUID.randomUUID());
-			this.setProcessnumber(processnumber);
-			this.setTimestamp(timestamp);
+		this.id = AppIdentifier.of(UUID.randomUUID());
+		this.setProcessnumber(processnumber);
+		this.setTimestamp(timestamp);
 
-			contacts.stream().forEach(it -> this.contacts.add(it));
-		}
+		this.setHash(hash);
+		//contacts.stream().forEach(it -> this.contacts.add(it));
+	}
 
 		// for testing purposes
-		ContactDeliveryList(String processnumber, UUID appId, Date timestamp, ContactDelivery contact) {
+	ContactDeliveryList(
+		String processnumber,
+		UUID appId,
+		Date timestamp,
+		String hash
+		//ContactDelivery contact
+	) {
+		super();
 
-			super();
+		this.setProcessnumber(processnumber);
+		this.id = AppIdentifier.of(appId);
+		this.setTimestamp(timestamp);
 
-			this.setProcessnumber(processnumber);
-			this.id = AppIdentifier.of(appId);
-			this.setTimestamp(timestamp);
-
-			this.add(contact);
-		}
+		this.setHash(hash);
+		//this.add(contact);
+	}
 
 
-		/**
-		 * Adds a contact to the list of contacts if is not already included
-		 *
-		 * @param contact
-		 */
-		public ContactDeliveryList add(ContactDelivery contact) {
+	/**
+	 * Adds a contact to the list of contacts if is not already included
+	 *
+	 * @param contact
+	 *
+	public ContactDeliveryList add(ContactDelivery contact) {
 
-			if (contacts.contains(contact)) {
-				return this;
-			}
-
-			contacts.add(contact);
-
+		if (contacts.contains(contact)) {
 			return this;
 		}
 
+		contacts.add(contact);
+
+		return this;
+	}
+
 		/**
-		 * Determines if App is authenticated
+		 * Determines if Import already exists
 		 *
 		 * @return
-		 */
-		public boolean isAuthenticated() {
-			return hasAnyAppIdentifier(APPIDENTIFIER);
+		 *
+		public boolean isImported() {
+			// for test purposes only
+			return hasAnyHash(Contactdelivery.TEST_HASH);
 		}
 
-		private boolean hasAnyAppIdentifier(AppIdentifier appId) {
-			// TODO
-			var res = false;
+		private boolean hasAnyHash(ContactHash... contacts) {
+			var newcontacts = List.of(contacts);
 
-			if(appId != null) {
-				res = true;
-			}
-
-			return res;
+			return this.contacts.stream()
+					.map(ContactDelivery::geContactHash).anyMatch(newcontacts::contains);
 		}
-
+		*/
 		@Embeddable
 		@EqualsAndHashCode
 		@RequiredArgsConstructor(staticName = "of")

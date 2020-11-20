@@ -19,7 +19,7 @@ import java.util.UUID;
  *
  * @author Johannes Griebenow
  */
-@Entity
+//@Entity
 @EqualsAndHashCode(of = "contactdelivery")
 @NoArgsConstructor
 @Getter
@@ -79,5 +79,10 @@ public class ContactDelivery {
 
 	public void setEmailAddress(EmailAddress emailaddress) {
 		this.emailaddress = emailaddress;
+	}
+
+	public String getHash() {
+		// TODO Hash whole row for comparison value
+		return firstname+lastname;
 	}
 };
