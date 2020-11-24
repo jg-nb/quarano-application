@@ -3,7 +3,7 @@ package quarano.delivery;
 import static org.assertj.core.api.Assertions.*;
 
 import lombok.RequiredArgsConstructor;
-import quarano.delivery.ContactDelivery;
+import quarano.delivery.DeliveryContact;
 import quarano.tracking.Address;
 import quarano.core.PhoneNumber;
 import quarano.core.EmailAddress;
@@ -15,21 +15,21 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 @RequiredArgsConstructor
-class ContactDeliveryTests {
+class DelviveryContactTests {
 
-	private final UUID id;
 	private final String lastname;
 	private final String firstname;
 	private final Address address;
 	private final PhoneNumber phonenumber;
 	private final EmailAddress emailaddress;
+	//private final String hash;
 
-	@Mock ContactDeliveryList contacts;
-	ContactDelivery contact;
+	@Mock DeliveryImport contactlist;
+	DeliveryContact contact;
 
 	@BeforeEach
 	void setup() {
-		contact = new ContactDelivery(id, lastname, firstname, address, phonenumber, emailaddress);
+		contact = new DeliveryContact(lastname, firstname, address, phonenumber, emailaddress);
 	}
 
 	@Test

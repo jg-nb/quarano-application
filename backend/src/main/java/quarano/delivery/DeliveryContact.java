@@ -1,6 +1,9 @@
 package quarano.delivery;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
 
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -13,26 +16,47 @@ import quarano.core.PhoneNumber;
 
 import java.util.UUID;
 
-
 /**
- * A masterdata-entity, which can be assigned to a Concact.
+ * A masterdata-entity, which can be assigned to an imported Concact.
  *
  * @author Johannes Griebenow
  */
-//@Entity
-@EqualsAndHashCode(of = "contactdelivery")
+@Entity
+@Table(name = "deliverycontact", schema = "delivery")
+@EqualsAndHashCode
 @NoArgsConstructor
 @Getter
 @Setter(AccessLevel.PACKAGE)
-public class ContactDelivery {
+public class DeliveryContact {
+
+	@Id
+	@Column(name = "deliverycontact_id")
+	private UUID id;
+
+	@Column(name = "deliverycontact_lastname")
 	private String lastname;
+
+	@Column(name = "deliverycontact_firstname")
 	private String firstname;
+
+	@Column(name = "deliverycontact_address")
 	private Address address;
+
+	@Column(name = "deliverycontact_phonenumber")
 	private PhoneNumber phonenumber;
+
+	@Column(name = "deliverycontact_emailaddress")
 	private EmailAddress emailaddress;
 
-	public ContactDelivery(UUID id, String lastname, String firstname, Address address, PhoneNumber phonenumber, EmailAddress emailaddress) {
+	// ... more parameters can be added
 
+	public DeliveryContact(
+		String lastname,
+		String firstname,
+		Address address,
+		PhoneNumber phonenumber,
+		EmailAddress emailaddress
+	) {
 		UUID.randomUUID();
 		this.lastname = this.getLastname();
 		this.firstname = this.getFirstname();
@@ -81,8 +105,10 @@ public class ContactDelivery {
 		this.emailaddress = emailaddress;
 	}
 
+	/*
 	public String getHash() {
 		// TODO Hash whole row for comparison value
-		return firstname+lastname;
+		return this.hashCode();
 	}
+	*/
 };
