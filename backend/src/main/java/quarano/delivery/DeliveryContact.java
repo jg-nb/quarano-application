@@ -9,12 +9,20 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import quarano.tracking.Address;
 import quarano.core.EmailAddress;
 import quarano.core.PhoneNumber;
 
+import java.io.Serializable;
+import java.util.Date;
 import java.util.UUID;
+
+import javax.persistence.Embeddable;
+import javax.persistence.GeneratedValue;
+
+import org.jmolecules.ddd.types.Identifier;
 
 /**
  * A masterdata-entity, which can be assigned to an imported Concact.
@@ -22,7 +30,7 @@ import java.util.UUID;
  * @author Johannes Griebenow
  */
 @Entity
-@Table(name = "deliverycontact", schema = "delivery")
+@Table(name = "deliverycontact")
 @EqualsAndHashCode
 @NoArgsConstructor
 @Getter
@@ -30,39 +38,87 @@ import java.util.UUID;
 public class DeliveryContact {
 
 	@Id
+	@GeneratedValue
 	@Column(name = "deliverycontact_id")
 	private UUID id;
 
-	@Column(name = "deliverycontact_lastname")
-	private String lastname;
+	private ProcessIdentifier processnumber;
+	private AppIdentifier appId;
 
-	@Column(name = "deliverycontact_firstname")
-	private String firstname;
+	private String lastname, firstname;
 
-	@Column(name = "deliverycontact_address")
 	private Address address;
-
-	@Column(name = "deliverycontact_phonenumber")
 	private PhoneNumber phonenumber;
-
-	@Column(name = "deliverycontact_emailaddress")
 	private EmailAddress emailaddress;
 
-	// ... more parameters can be added
+	/**
+	 * ... more parameters can be added
+	 * Do not forget to add Getter and Setter too.
+	 * Do not forget do update "create table deliveryoncact" in
+	 * ./main/resources/db/V1001__initial_schema.sql too.
+	 */
+	/*
+	@Column(name = "deliverycontact_hash")
+	private Hash hash;
+	*/
+	@Column(name = "deliverycontact_timestamp")
+	private Date timestamp;
 
 	public DeliveryContact(
+		String processnumber,
+		String appId,
 		String lastname,
 		String firstname,
 		Address address,
 		PhoneNumber phonenumber,
-		EmailAddress emailaddress
+		EmailAddress emailaddress,
+		//Hash hash,
+		Date timestamp
 	) {
 		UUID.randomUUID();
+		this.processnumber = ProcessIdentifier.of(processnumber);
+		this.appId = AppIdentifier.of(appId);
 		this.lastname = this.getLastname();
 		this.firstname = this.getFirstname();
 		this.address = this.getAddress();
 		this.phonenumber = this.getPhoneNumber();
 		this.emailaddress = this.getEmailAddress();
+		//this.hash = this.getHash();
+		this.timestamp = this.getTimestamp();
+	}
+
+	/**
+	 * Determines if DeliveryContact already exists
+	 *
+	 * @return
+	 *
+	public boolean isImported() {
+		return hasAnyHash(DeliveryContact.HASH);
+	}
+
+	private boolean hasAnyHash(DeliveryContactHash... contactlist) {
+		var newcontacts = List.of(contactlist);
+
+		return this.contactlist.stream()
+				.map(DeliveryContact::geHash).anyMatch(newcontacts::contains);
+	}
+	*/
+	@Embeddable
+	@EqualsAndHashCode
+	@RequiredArgsConstructor(staticName = "of")
+	@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
+	public static class ProcessIdentifier implements Identifier, Serializable {
+
+		final String processnumber;
+	}
+
+	@Embeddable
+	@EqualsAndHashCode
+	@RequiredArgsConstructor(staticName = "of")
+	@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
+	public static class AppIdentifier implements Identifier, Serializable {
+
+		final String appId;
 	}
 
 	public String getLastname() {
@@ -106,9 +162,21 @@ public class DeliveryContact {
 	}
 
 	/*
-	public String getHash() {
+	public Hash getHash() {
 		// TODO Hash whole row for comparison value
 		return this.hashCode();
 	}
+
+	public void setHash(Hash hash) {
+		this.hash = hash;
+	}
 	*/
+
+	public Date getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(Date timestamp) {
+		this.timestamp = timestamp;
+	}
 };

@@ -249,3 +249,19 @@ CREATE TABLE action_items (
 	CONSTRAINT action_items_tracked_people_fk FOREIGN KEY (tracked_person_id) REFERENCES tracked_people(tracked_person_id),
 	CONSTRAINT action_items_diary_entries_fk FOREIGN KEY (entry_diary_entry_id) REFERENCES diary_entries(diary_entry_id)
 );
+
+CREATE TABLE deliverycontact (
+	deliverycontact_id uuid NOT NULL,
+	processnumber varchar(255) NOT NULL UNIQUE,
+	app_id varchar(255) NOT NULL UNIQUE,
+	lastname varchar(255) NOT NULL,
+	firstname varchar(255) NOT NULL,
+	city varchar(255) NULL,
+	house_number varchar(255) NULL,
+	street varchar(255) NULL,
+	zipcode varchar(255) NULL,
+	phone_number varchar(255) NULL,
+	email varchar(255) NULL,
+	deliverycontact_timestamp timestamp NOT NULL,
+	CONSTRAINT deliverycontact_pkey PRIMARY KEY (deliverycontact_id)
+);
