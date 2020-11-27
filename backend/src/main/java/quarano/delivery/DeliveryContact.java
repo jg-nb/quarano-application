@@ -9,20 +9,18 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import quarano.tracking.Address;
 import quarano.core.EmailAddress;
 import quarano.core.PhoneNumber;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
-import javax.persistence.Embeddable;
 import javax.persistence.GeneratedValue;
-
-import org.jmolecules.ddd.types.Identifier;
+//import javax.persistence.OneToMany;
+//import javax.persistence.CascadeType;
+//import javax.persistence.JsonIgnore;
 
 /**
  * A masterdata-entity, which can be assigned to an imported Concact.
@@ -31,7 +29,7 @@ import org.jmolecules.ddd.types.Identifier;
  */
 @Entity
 @Table(name = "deliverycontact")
-@EqualsAndHashCode
+@EqualsAndHashCode(of = "id")
 @NoArgsConstructor
 @Getter
 @Setter(AccessLevel.PACKAGE)
@@ -42,50 +40,86 @@ public class DeliveryContact {
 	@Column(name = "deliverycontact_id")
 	private UUID id;
 
-	private ProcessIdentifier processnumber;
-	private AppIdentifier appId;
-
 	private String lastname, firstname;
 
 	private Address address;
-	private PhoneNumber phonenumber;
-	private EmailAddress emailaddress;
+	public PhoneNumber phonenumber;
+	public EmailAddress emailaddress;
 
-	/**
-	 * ... more parameters can be added
-	 * Do not forget to add Getter and Setter too.
-	 * Do not forget do update "create table deliveryoncact" in
-	 * ./main/resources/db/V1001__initial_schema.sql too.
-	 */
-	/*
 	@Column(name = "deliverycontact_hash")
-	private Hash hash;
-	*/
+	private String hash;
+
+	@Column(name = "deliverycontact_verified")
+	private Boolean verified;
+
+	@Column(name = "covid19_positive")
+	private Date covidPositive;
+
 	@Column(name = "deliverycontact_timestamp")
 	private Date timestamp;
 
+	/*
+	@ManyToMany(cascade = CascadeType.ALL)
+	private List<DeliveryPlace> places = new ArrayList<>();
+	*/
+
 	public DeliveryContact(
-		String processnumber,
-		String appId,
 		String lastname,
 		String firstname,
 		Address address,
 		PhoneNumber phonenumber,
 		EmailAddress emailaddress,
-		//Hash hash,
+		String hash,
+		Boolean verified,
+		Date covidPositive,
 		Date timestamp
 	) {
 		UUID.randomUUID();
-		this.processnumber = ProcessIdentifier.of(processnumber);
-		this.appId = AppIdentifier.of(appId);
-		this.lastname = this.getLastname();
-		this.firstname = this.getFirstname();
-		this.address = this.getAddress();
-		this.phonenumber = this.getPhoneNumber();
-		this.emailaddress = this.getEmailAddress();
-		//this.hash = this.getHash();
-		this.timestamp = this.getTimestamp();
+		this.lastname = lastname;
+		this.firstname = firstname;
+		this.address = address;
+		this.phonenumber = phonenumber;
+		this.emailaddress = emailaddress;
+		this.hash = hash;
+		this.verified = verified;
+		this.covidPositive = covidPositive;
+		this.timestamp = timestamp;
 	}
+	/*
+	// for testing purposes
+	DeliveryContact(
+		String lastname,
+		String firstname,
+		Address address,
+		PhoneNumber phonenumber,
+		EmailAddress emailaddress,
+		String hash,
+		Boolean verified,
+		Date covidPositive,
+		Date timestamp
+	) {
+
+		super();
+
+		UUID.randomUUID();
+		this.lastname = lastname;
+		this.firstname = firstname;
+		this.address = address;
+		this.phonenumber = phoneNumber;
+		this.emailaddress = emailaddress;
+		this.hash = hash;
+		this.verified = verified;
+		this.covidPositive = covidPositive;
+		this.timestamp = timestamp;
+	}
+	*/
+	/*
+	@JsonIgnore
+	public void addPlace(DeliverPlace place) {
+		places.add(place);
+		places.setDeliveryContact(this)
+	}
+	*/
 
 	/**
 	 * Determines if DeliveryContact already exists
@@ -103,80 +137,4 @@ public class DeliveryContact {
 				.map(DeliveryContact::geHash).anyMatch(newcontacts::contains);
 	}
 	*/
-	@Embeddable
-	@EqualsAndHashCode
-	@RequiredArgsConstructor(staticName = "of")
-	@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
-	public static class ProcessIdentifier implements Identifier, Serializable {
-
-		final String processnumber;
-	}
-
-	@Embeddable
-	@EqualsAndHashCode
-	@RequiredArgsConstructor(staticName = "of")
-	@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
-	public static class AppIdentifier implements Identifier, Serializable {
-
-		final String appId;
-	}
-
-	public String getLastname() {
-		return lastname;
-	}
-
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
-
-	public String getFirstname() {
-		return firstname;
-	}
-
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
-
-	public Address getAddress() {
-		return address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-
-	public PhoneNumber getPhoneNumber() {
-		return phonenumber;
-	}
-
-	public void setPhoneNumber(PhoneNumber phonenumber) {
-		this.phonenumber = phonenumber;
-	}
-
-	public EmailAddress getEmailAddress() {
-		return emailaddress;
-	}
-
-	public void setEmailAddress(EmailAddress emailaddress) {
-		this.emailaddress = emailaddress;
-	}
-
-	/*
-	public Hash getHash() {
-		// TODO Hash whole row for comparison value
-		return this.hashCode();
-	}
-
-	public void setHash(Hash hash) {
-		this.hash = hash;
-	}
-	*/
-
-	public Date getTimestamp() {
-		return timestamp;
-	}
-
-	public void setTimestamp(Date timestamp) {
-		this.timestamp = timestamp;
-	}
 };

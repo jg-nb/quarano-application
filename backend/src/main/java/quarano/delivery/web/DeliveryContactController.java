@@ -36,13 +36,16 @@ class DeliveryContactController {
 		return ResponseEntity
 			.created(URI.create(fromMethodCall(processnumber).toUriString()))
 			.body(createDeliveryContact(
-				processnumber,
-				appId,
+				//processnumber,
+				//appId,
 				payload.getLastname(),
 				payload.getFirstname(),
 				payload.getAddress(),
-				payload.getPhoneNumber(),
-				payload.getEmailAddress(),
+				payload.phonenumber,
+				payload.emailaddress,
+				payload.getHash(),
+				payload.getVerified(),
+				payload.getCovidPositive(),
 				payload.getTimestamp()
 			));
 	}
@@ -50,34 +53,41 @@ class DeliveryContactController {
 	/**
 	 * creates a new deliverycontact and stores it
 	 *
-	 * @param processnumber
-	 * @param appId
 	 * @param lastname
 	 * @param firstname
 	 * @param address
 	 * @param phonenumber
 	 * @param emailaddress
+	 * @param hash
+	 * @param verified
+	 * @param covidPositive
 	 * @param timestamp
 	 * @return
 	 */
 	public DeliveryContact createDeliveryContact(
-		String processnumber,
-		String appId,
+		//String processnumber,
+		//String appId,
 		String lastname,
 		String firstname,
 		Address address,
 		PhoneNumber phonenumber,
 		EmailAddress emailaddress,
+		String hash,
+		Boolean verified,
+		Date covidPositive,
 		Date timestamp
 	) {
 		var contact =  new DeliveryContact(
-			processnumber,
-			appId,
+			//processnumber,
+			//appId,
 			lastname,
 			firstname,
 			address,
 			phonenumber,
 			emailaddress,
+			hash,
+			verified,
+			covidPositive,
 			timestamp
 		);
 

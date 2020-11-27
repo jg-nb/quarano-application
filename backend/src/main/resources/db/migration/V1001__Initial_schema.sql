@@ -252,8 +252,6 @@ CREATE TABLE action_items (
 
 CREATE TABLE deliverycontact (
 	deliverycontact_id uuid NOT NULL,
-	processnumber varchar(255) NOT NULL UNIQUE,
-	app_id varchar(255) NOT NULL UNIQUE,
 	lastname varchar(255) NOT NULL,
 	firstname varchar(255) NOT NULL,
 	city varchar(255) NULL,
@@ -262,6 +260,21 @@ CREATE TABLE deliverycontact (
 	zipcode varchar(255) NULL,
 	phone_number varchar(255) NULL,
 	email varchar(255) NULL,
+	deliverycontact_hash varchar(255) NOT NULL,
+	deliverycontact_verified boolean NOT NULL,
+	covid19_positive timestamp,
 	deliverycontact_timestamp timestamp NOT NULL,
 	CONSTRAINT deliverycontact_pkey PRIMARY KEY (deliverycontact_id)
+);
+
+CREATE TABLE deliveryplace (
+	processnumber varchar(255) NOT NULL UNIQUE,
+	app_id varchar(255) NOT NULL UNIQUE,
+	deliveryplace_tag varchar(255),
+	deliveryplace_timestamp timestamp NOT NULL,
+	checkin timestamp,
+	checkout timestamp,
+	deliverycontact_id uuid NOT NULL,
+	CONSTRAINT deliveryplace_pkey PRIMARY KEY (processnumber, app_id),
+	CONSTRAINT deliveryplace_fkey FOREIGN KEY (deliverycontact_id) REFERENCES deliverycontact(deliverycontact_id)
 );
