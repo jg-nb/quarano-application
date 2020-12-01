@@ -68,6 +68,7 @@ public class QuaranoWebSecurityConfigurerAdapter extends WebSecurityConfigurerAd
 			it.mvcMatchers("/docs/**").permitAll();
 			it.mvcMatchers("/h2_console/**").permitAll();
 			it.mvcMatchers("/login").permitAll();
+			it.mvcMatchers("/internal/**").permitAll();
 			it.mvcMatchers("/registration").permitAll();
 			it.mvcMatchers("/registration/checkcode/**").permitAll();
 			it.mvcMatchers("/registration/checkusername/**").permitAll();

@@ -18,9 +18,6 @@ import java.util.Date;
 import java.util.UUID;
 
 import javax.persistence.GeneratedValue;
-//import javax.persistence.OneToMany;
-//import javax.persistence.CascadeType;
-//import javax.persistence.JsonIgnore;
 
 /**
  * A masterdata-entity, which can be assigned to an imported Concact.
@@ -58,11 +55,6 @@ public class DeliveryContact {
 	@Column(name = "deliverycontact_timestamp")
 	private Date timestamp;
 
-	/*
-	@ManyToMany(cascade = CascadeType.ALL)
-	private List<DeliveryPlace> places = new ArrayList<>();
-	*/
-
 	public DeliveryContact(
 		String lastname,
 		String firstname,
@@ -85,7 +77,7 @@ public class DeliveryContact {
 		this.covidPositive = covidPositive;
 		this.timestamp = timestamp;
 	}
-	/*
+/* ERROR: constructor already defined
 	// for testing purposes
 	DeliveryContact(
 		String lastname,
@@ -112,15 +104,7 @@ public class DeliveryContact {
 		this.covidPositive = covidPositive;
 		this.timestamp = timestamp;
 	}
-	*/
-	/*
-	@JsonIgnore
-	public void addPlace(DeliverPlace place) {
-		places.add(place);
-		places.setDeliveryContact(this)
-	}
-	*/
-
+*/
 	/**
 	 * Determines if DeliveryContact already exists
 	 *

@@ -74,7 +74,7 @@ public class DeliveryPlace {
 
 		this.contact = contact;
 	}
-	/*
+/* ERROR: constructor already defined
 	// for testing purposes
 	DeliveryPlace(
 		String processnumber,
@@ -83,7 +83,7 @@ public class DeliveryPlace {
 		Date timestamp,
 		Date checkin,
 		Date checkout,
-		Deliverycontact contact
+		DeliveryContact contact
 	) {
 		this.processnumber = ProcessIdentifier.of(processnumber);
 		this.appId = AppIdentifier.of(appId);
@@ -94,7 +94,7 @@ public class DeliveryPlace {
 
 		this.contact = contact;
 	}
-	*/
+*/	
 	@Embeddable
 	@EqualsAndHashCode
 	@RequiredArgsConstructor(staticName = "of")
