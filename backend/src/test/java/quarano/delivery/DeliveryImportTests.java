@@ -22,10 +22,7 @@ class DelviveryImportTests {
 
 	@BeforeEach
 	void setup() {
-		deliveryimport = new DeliveryImport(
-			contact,
-			place
-		);
+		deliveryimport = new DeliveryImport(contact, place);
 	}
 
 	@Test

@@ -55,17 +55,8 @@ public class DeliveryContact {
 	@Column(name = "deliverycontact_timestamp")
 	private Date timestamp;
 
-	public DeliveryContact(
-		String lastname,
-		String firstname,
-		Address address,
-		PhoneNumber phonenumber,
-		EmailAddress emailaddress,
-		String hash,
-		Boolean verified,
-		Date covidPositive,
-		Date timestamp
-	) {
+	public DeliveryContact(String lastname, String firstname, Address address, PhoneNumber phonenumber, EmailAddress emailaddress, String hash, Boolean verified, Date covidPositive, Date timestamp) {
+
 		UUID.randomUUID();
 		this.lastname = lastname;
 		this.firstname = firstname;
@@ -77,21 +68,9 @@ public class DeliveryContact {
 		this.covidPositive = covidPositive;
 		this.timestamp = timestamp;
 	}
-/* ERROR: constructor already defined
+/* ERROR: Constructor already defined
 	// for testing purposes
-	DeliveryContact(
-		String lastname,
-		String firstname,
-		Address address,
-		PhoneNumber phonenumber,
-		EmailAddress emailaddress,
-		String hash,
-		Boolean verified,
-		Date covidPositive,
-		Date timestamp
-	) {
-
-		super();
+	DeliveryContact(String lastname, String firstname, Address address, PhoneNumber phonenumber, EmailAddress emailaddress, String hash, Boolean verified, Date covidPositive, Date timestamp) {
 
 		UUID.randomUUID();
 		this.lastname = lastname;
@@ -104,7 +83,7 @@ public class DeliveryContact {
 		this.covidPositive = covidPositive;
 		this.timestamp = timestamp;
 	}
-*/
+*/	
 	/**
 	 * Determines if DeliveryContact already exists
 	 *

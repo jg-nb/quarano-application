@@ -260,7 +260,7 @@ CREATE TABLE deliverycontact (
 	zipcode varchar(255) NULL,
 	phone_number varchar(255) NULL,
 	email varchar(255) NULL,
-	deliverycontact_hash varchar(255) NOT NULL,
+	deliverycontact_hash varchar(255) NOT NULL UNIQUE,
 	deliverycontact_verified boolean NOT NULL,
 	covid19_positive timestamp,
 	deliverycontact_timestamp timestamp NOT NULL,

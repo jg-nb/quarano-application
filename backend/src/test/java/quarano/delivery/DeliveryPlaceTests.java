@@ -16,27 +16,15 @@ import org.junit.jupiter.api.Test;
 @RequiredArgsConstructor
 class DelviveryPlaceTests {
 
-	private final String processnumber;
-	private final String appId;
-	private final String tag;
-	private final Date timestamp;
-	private final Date checkin;
-	private final Date checkout;
+	private final String processnumber, appId, tag;
+	private final Date checkin, checkout, timestamp;
 	private final DeliveryContact contact;
 
 	DeliveryPlace place;
 
 	@BeforeEach
 	void setup() {
-		place = new DeliveryPlace(
-			processnumber,
-			appId,
-			tag,
-			timestamp,
-			checkin,
-			checkout,
-			contact
-		);
+		place = new DeliveryPlace(processnumber, appId, tag, timestamp, checkin, checkout, contact);
 	}
 
 	@Test

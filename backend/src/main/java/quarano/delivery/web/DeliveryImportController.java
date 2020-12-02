@@ -1,6 +1,7 @@
 package quarano.delivery.web;
 
 import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.*;
+import static quarano.tracking.Address.*;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -8,9 +9,10 @@ import quarano.delivery.DeliveryImport;
 import quarano.delivery.DeliveryImportService;
 import quarano.delivery.DeliveryContact;
 import quarano.delivery.DeliveryPlace;
-import quarano.delivery.web.DeliveryImportRepresentations;
 import quarano.delivery.web.DeliveryImportDto;
+import quarano.delivery.web.DeliveryImportRepresentations;
 import quarano.tracking.Address;
+import quarano.tracking.ZipCode;
 import quarano.core.PhoneNumber;
 import quarano.core.EmailAddress;
 import quarano.core.web.MappedPayloads;
@@ -39,8 +41,8 @@ class DeliveryImportController {
 
 	/**
 	 * (non - Javadoc)
-	 * Test URI:
-	 curl -X POST http://localhost:8080/internal/deliveryimport/placelogg_ID/prcnr_test -H "Content-Type: application/json" -d '{"contact":{"firstname":"Max","lastname":"Mustermann"},"place":{"tag":"Platz1"}}'
+	 * Test Data:
+'{"firstname":"Max","lastname":"Mustermann","hash":"aA1bB2cC3","verified":"false","street":"fakestreet","housenumber":"123","city":"Berlin","zipcode":"12345","phonenumber":"012345678910","emailaddress":"max.mustermann@aol.com","timestamp":"2020-12-02T10:00:00.000+00:00","tag":"Platz1"}'
 	 */
 	@PostMapping(path="/internal/deliveryimport/{appId}/{processnumber}", consumes="application/json")
 	HttpEntity<?> addDeliveryImport(
@@ -51,38 +53,42 @@ class DeliveryImportController {
 		return MappedPayloads.of(payload, errors)
 			.alwaysMap((it, nested) -> it.validate(nested, deliveryimports))
 			.map(it -> {
-				var contact = it.getContact();
-				var newcontact = deliveryimports.createDeliveryContact(
-					contact.getLastname(),
-					contact.getFirstname(),
-					contact.getAddress(),
-					contact.phonenumber,
-					contact.emailaddress,
-					contact.getHash(),
-					contact.getVerified(),
-					contact.getCovidPositive(),
-					contact.getTimestamp()
+
+				Date timestamp;
+				try {
+					timestamp = it.getTimestamp();
+				} catch(Exception e) {
+					timestamp = new Date();
+				}
+
+				var contact = deliveryimports.createDeliveryContact(
+					it.getLastname(),
+					it.getFirstname(),
+					new Address(it.getStreet(), HouseNumber.of(it.getHousenumber()), it.getCity(), ZipCode.of(it.getZipcode())),
+					PhoneNumber.of(it.getPhonenumber()),
+					EmailAddress.of(it.getEmailaddress()),
+					it.getHash(),
+					it.getVerified(),
+					it.getCovidPositive(),
+					timestamp
 				);
 
-				var place = it.getPlace();
-				var newplace = deliveryimports.createDeliveryPlace(
+				var place = deliveryimports.createDeliveryPlace(
 					appId,
 					processnumber,
-					place.getTag(),
-					place.getTimestamp(),
-					place.getCheckin(),
-					place.getCheckout(),
-					place.getContact()
+					it.getTag(),
+					timestamp,
+					it.getCheckin(),
+					it.getCheckout(),
+					contact
 				);
 
-				return new DeliveryImport(newcontact, newplace);
+				return new DeliveryImport(contact, place);
 			}).concludeIfValid(it -> {
-				//var process = on(DeliveryImportController.class).getContact(it.getId(), it);
 
 				return ResponseEntity.ok(processnumber);
-				/*return ResponseEntity
-						.created(URI.create(fromMethodCall(location).toUriString()))
-						.body(representations.toSummary(it));*/
+						//.created(URI.create(fromMethodCall(it).toUriString()))
+						//.body(representations.toRepresentation(it));
 			});
 	}
 }

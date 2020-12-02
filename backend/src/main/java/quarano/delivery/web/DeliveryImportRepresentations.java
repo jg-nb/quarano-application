@@ -16,6 +16,6 @@ import org.springframework.stereotype.Component;
 class DeliveryImportRepresentations {
 
 	DeliveryImportDto toRepresentation(DeliveryImport deliveryimport) {
-		return new DeliveryImportDto(/*deliveryimport.getContact(), deliveryimport.getPlace()*/);
+		return new DeliveryImportDto();
 	}
 }

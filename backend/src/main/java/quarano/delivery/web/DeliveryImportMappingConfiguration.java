@@ -43,7 +43,7 @@ class DeliveryImportMappingConfiguration implements MappingCustomizer {
 
 			var deliveryimport = context.getSource();
 
-			return new DeliveryImportDto(/*deliveryimport.getContact(), deliveryimport.getPlace()*/);
+			return new DeliveryImportDto();
 		}, DeliveryImport.class, DeliveryImportDto.class);
 	}
 }

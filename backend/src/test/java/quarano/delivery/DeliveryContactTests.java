@@ -16,31 +16,18 @@ import org.junit.jupiter.api.Test;
 @RequiredArgsConstructor
 class DelviveryContactTests {
 
-	private final String lastname;
-	private final String firstname;
+	private final String lastname, firstname, hash;
 	private final Address address;
 	private final PhoneNumber phonenumber;
 	private final EmailAddress emailaddress;
-	private final String hash;
 	private final Boolean verified;
-	private final Date covidPositive;
-	private final Date timestamp;
-
+	private final Date covidPositive, timestamp;
+	
 	DeliveryContact contact;
 
 	@BeforeEach
 	void setup() {
-		contact = new DeliveryContact(
-			lastname,
-			firstname,
-			address,
-			phonenumber,
-			emailaddress,
-			hash,
-			verified,
-			covidPositive,
-			timestamp
-		);
+		contact = new DeliveryContact(lastname, firstname, address, phonenumber, emailaddress, hash, verified, covidPositive, timestamp);
 	}
 
 	@Test

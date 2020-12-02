@@ -26,19 +26,13 @@ public class DeliveryImport {
 	private DeliveryContact contact;
 	private DeliveryPlace place;
 
-	public DeliveryImport(
-		DeliveryContact contact,
-		DeliveryPlace place
-	) {
+	public DeliveryImport(DeliveryContact contact, DeliveryPlace place) {
 		this.contact = contact;
 		this.place = place;
 	}
 /* ERROR: constructor already defined
 	// for testing purposes
-	DeliveryImport(
-		DeliveryContact contact,
-		DeliveryPlace place
-	) {
+	DeliveryImport(DeliveryContact contact, DeliveryPlace place) {
 		this.contact = contact;
 		this.place = place;
 	}

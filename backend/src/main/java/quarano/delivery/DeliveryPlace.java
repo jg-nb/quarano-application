@@ -56,15 +56,8 @@ public class DeliveryPlace {
 	@JoinColumn(name = "deliverycontact_id")
 	private DeliveryContact contact;
 
-	public DeliveryPlace(
-		String processnumber,
-		String appId,
-		String tag,
-		Date timestamp,
-		Date checkin,
-		Date checkout,
-		DeliveryContact contact
-	) {
+	public DeliveryPlace(String processnumber, String appId, String tag, Date timestamp, Date checkin, Date checkout, DeliveryContact contact) {
+
 		this.processnumber = ProcessIdentifier.of(processnumber);
 		this.appId = AppIdentifier.of(appId);
 		this.tag = tag;
@@ -74,17 +67,10 @@ public class DeliveryPlace {
 
 		this.contact = contact;
 	}
-/* ERROR: constructor already defined
+/* ERROR: Constructor already defined
 	// for testing purposes
-	DeliveryPlace(
-		String processnumber,
-		String appId,
-		String tag,
-		Date timestamp,
-		Date checkin,
-		Date checkout,
-		DeliveryContact contact
-	) {
+	DeliveryPlace(String processnumber, String appId, String tag, Date timestamp, Date checkin, Date checkout, DeliveryContact contact) {
+
 		this.processnumber = ProcessIdentifier.of(processnumber);
 		this.appId = AppIdentifier.of(appId);
 		this.tag = tag;
@@ -94,7 +80,7 @@ public class DeliveryPlace {
 
 		this.contact = contact;
 	}
-*/	
+*/
 	@Embeddable
 	@EqualsAndHashCode
 	@RequiredArgsConstructor(staticName = "of")
