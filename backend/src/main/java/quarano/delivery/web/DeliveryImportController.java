@@ -20,6 +20,7 @@ import quarano.core.web.MappedPayloads;
 import java.util.Date;
 
 import java.net.URI;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -46,7 +47,7 @@ class DeliveryImportController {
 	 */
 	@PostMapping(path="/internal/deliveryimport/{appId}/{processnumber}", consumes="application/json")
 	HttpEntity<?> addDeliveryImport(
-		@PathVariable String appId, @PathVariable String processnumber,
+		@PathVariable UUID appId, @PathVariable String processnumber,
 		@Valid @RequestBody DeliveryImportDto payload,
 		Errors errors
 	) {
@@ -74,8 +75,8 @@ class DeliveryImportController {
 				);
 
 				var place = deliveryimports.createDeliveryPlace(
-					appId,
 					processnumber,
+					appId,
 					it.getTag(),
 					timestamp,
 					it.getCheckin(),

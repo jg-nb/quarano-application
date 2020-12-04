@@ -17,6 +17,7 @@ import quarano.core.EmailAddress;
 import quarano.delivery.DeliveryContact;
 
 import java.io.Serializable;
+import java.util.UUID;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
@@ -42,7 +43,9 @@ public class DeliveryPlace {
 
 	@EmbeddedId
 	private ProcessIdentifier processnumber;
-	private AppIdentifier appId;
+
+	@Column(name = "app_id")
+	private UUID appId;
 
 	@Column(name = "deliveryplace_tag")
 	private String tag;
@@ -56,10 +59,10 @@ public class DeliveryPlace {
 	@JoinColumn(name = "deliverycontact_id")
 	private DeliveryContact contact;
 
-	public DeliveryPlace(String processnumber, String appId, String tag, Date timestamp, Date checkin, Date checkout, DeliveryContact contact) {
+	public DeliveryPlace(String processnumber, UUID appId, String tag, Date timestamp, Date checkin, Date checkout, DeliveryContact contact) {
 
 		this.processnumber = ProcessIdentifier.of(processnumber);
-		this.appId = AppIdentifier.of(appId);
+		this.appId = appId;
 		this.tag = tag;
 		this.timestamp = timestamp;
 		this.checkin = checkin;
@@ -69,10 +72,10 @@ public class DeliveryPlace {
 	}
 /* ERROR: Constructor already defined
 	// for testing purposes
-	DeliveryPlace(String processnumber, String appId, String tag, Date timestamp, Date checkin, Date checkout, DeliveryContact contact) {
+	DeliveryPlace(String processnumber, UUID appId, String tag, Date timestamp, Date checkin, Date checkout, DeliveryContact contact) {
 
 		this.processnumber = ProcessIdentifier.of(processnumber);
-		this.appId = AppIdentifier.of(appId);
+		this.appId = appId;
 		this.tag = tag;
 		this.timestamp = timestamp;
 		this.checkin = checkin;
@@ -90,12 +93,4 @@ public class DeliveryPlace {
 		final String processnumber;
 	}
 
-	@Embeddable
-	@EqualsAndHashCode
-	@RequiredArgsConstructor(staticName = "of")
-	@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
-	public static class AppIdentifier implements Identifier, Serializable {
-
-		final String appId;
-	}
 };

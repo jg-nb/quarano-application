@@ -3,7 +3,6 @@ package quarano.delivery;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import quarano.delivery.DeliveryPlace.AppIdentifier;
 import quarano.delivery.DeliveryPlace.ProcessIdentifier;
 import quarano.core.EmailAddress;
 import quarano.core.PhoneNumber;
@@ -79,8 +78,8 @@ public class DeliveryImportService {
 	/**
 	 * creates a new deliveryplace and stores it
 	 *
-	 * @param appId
 	 * @param processnumber
+	 * @param appId
 	 * @param tag
 	 * @param timestamp
 	 * @param checkin
@@ -89,8 +88,8 @@ public class DeliveryImportService {
 	 * @return
 	 */
 	public DeliveryPlace createDeliveryPlace(
-		String appId,
 		String processnumber,
+		UUID appId,
 		String tag,
 		Date timestamp,
 		Date checkin,
@@ -98,8 +97,8 @@ public class DeliveryImportService {
 		DeliveryContact contact
 	) {
 		var newplace =  new DeliveryPlace(
-			appId,
 			processnumber,
+			appId,
 			tag,
 			timestamp,
 			checkin,

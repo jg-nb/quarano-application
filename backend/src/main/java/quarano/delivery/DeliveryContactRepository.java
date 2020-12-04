@@ -3,7 +3,6 @@ package quarano.delivery;
 import quarano.delivery.DeliveryContact;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

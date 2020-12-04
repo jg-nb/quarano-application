@@ -268,13 +268,18 @@ CREATE TABLE deliverycontact (
 );
 
 CREATE TABLE deliveryplace (
-	processnumber varchar(255) NOT NULL UNIQUE,
-	app_id varchar(255) NOT NULL UNIQUE,
+	processnumber varchar(255) NOT NULL,
+	app_id uuid NOT NULL,
 	deliveryplace_tag varchar(255),
 	deliveryplace_timestamp timestamp NOT NULL,
 	checkin timestamp,
 	checkout timestamp,
 	deliverycontact_id uuid NOT NULL,
-	CONSTRAINT deliveryplace_pkey PRIMARY KEY (processnumber, app_id),
 	CONSTRAINT deliveryplace_fkey FOREIGN KEY (deliverycontact_id) REFERENCES deliverycontact(deliverycontact_id)
+);
+
+CREATE TABLE certificate (
+	app_id uuid NOT NULL UNIQUE,
+	rsa_pub varchar(255) NOT NULL UNIQUE,
+	CONSTRAINT certificate_pkey PRIMARY KEY (app_id)
 );
